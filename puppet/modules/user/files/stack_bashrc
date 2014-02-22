@@ -1,0 +1,72 @@
+# -*- shell-script -*-
+# .bashrc
+
+# This is a utility function to give you git branch in the prompt
+# if you are in a git directory
+function parse_git_branch {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
+alias ls='ls -F --color'
+
+export PROMPT_DIRTRIM=3
+
+# setup variables for prompt color codes. Makes it much easier to
+# read the prompt code below
+function proml {
+  local        BLUE="\[\033[0;34m\]"
+  local         RED="\[\033[0;31m\]"
+  local   LIGHT_RED="\[\033[1;31m\]"
+  local       GREEN="\[\033[0;32m\]"
+  local       YELLOW="\[\033[0;33m\]"
+  local LIGHT_GREEN="\[\033[1;32m\]"
+  local       WHITE="\[\033[1;37m\]"
+  local  LIGHT_GRAY="\[\033[0;37m\]"
+  local RESET="\[\e[0m\]"
+
+# These variables are used for prompt and title
+MYUSER="\u@"
+XMYUSER=""
+
+# if this terminal "is" an xterm (or compatible) build
+# a titlebar variable which is the same as the prompt more or less
+  case $TERM in
+    xterm*)
+    TITLEBAR="\[\033]0;$MYUSER\h:\w\007\]"
+    ;;
+    *)
+    TITLEBAR=""
+    ;;
+  esac
+
+# PS1 - normal prompt
+#   set title bar
+#   set prompt to yellow user@host : red directory (green git branch) >
+PS1="${TITLEBAR}\
+$YELLOW$MYUSER\h$RED:\w$GREEN\$(parse_git_branch)\
+$RED> $RESET"
+PS2='> '
+PS4='+ '
+}
+proml
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+# the variable is not defined, and after the /etc/inputrc
+# include the ~/.inputrc
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+
+# because I'm not sure all platforms do this
+export PAGER=less
+
+# allow core files, I do development, and I want to see them
+ulimit -c unlimited
+
+export HISTIGNORE="&:ls:exit"
+
+# this massively speeds up pip install
+export PIP_DOWNLOAD_CACHE=~/.pip/cache

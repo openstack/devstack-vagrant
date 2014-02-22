@@ -1,0 +1,33 @@
+[[local|localrc]]
+DATABASE_PASSWORD=pass
+RABBIT_PASSWORD=pass
+SERVICE_TOKEN=pass
+SERVICE_PASSWORD=pass
+ADMIN_PASSWORD=pass
+MULTI_HOST="True"
+API_RATE_LIMIT="False"
+RECLONE="True"
+GUEST_INTERFACE_DEFAULT=eth1
+HOST_IP_IFACE=eth1
+<% if @is_compute %>
+ENABLED_SERVICES=n-cpu,n-net,c-vol
+
+DATABASE_TYPE=mysql
+SERVICE_HOST=<%= @manager_hostname %>
+MYSQL_HOST=$SERVICE_HOST
+RABBIT_HOST=$SERVICE_HOST
+GLANCE_HOST=$SERVICE_HOST
+<% else %>
+# The manager
+IMAGE_URLS="http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-uec.tar.gz"
+IMAGE_URLS+=",https://download.fedoraproject.org/pub/fedora/linux/releases/20/Images/x86_64/Fedora-x86_64-20-20131211.1-sda.qcow2"
+IMAGE_URLS+=",https://cloud-images.ubuntu.com/precise/current/precise-server-cloudimg-amd64-disk1.img"
+
+enable_service dstat
+
+<% end %>
+
+[[post-config|$NOVA_CONF]]
+[DEFAULT]
+flat_interface = eth1
+vlan_interface = eth1
