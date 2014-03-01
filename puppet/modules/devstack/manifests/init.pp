@@ -2,6 +2,7 @@ class devstack(
   $dir = '/home/stack/devstack'
 )
 {
+  $user = $user::stack::username
   vcsrepo { $dir:
     ensure => latest,
     provider => git,
@@ -18,16 +19,16 @@ class devstack(
   }
 
   file { "$dir/local.sh":
-    owner => "stack",
-    group => "stack",
+    owner => $user,
+    group => $user,
     mode  => 755,
     source => "puppet:///modules/devstack/local.sh",
     require => vcsrepo[ $dir ]
   }
 
   file { "$dir/local.conf":
-    owner => "stack",
-    group => "stack",
+    owner => $user,
+    group => $user,
     mode  => 644,
     source => "puppet:///modules/devstack/$localrc",
     require => [vcsrepo[ $dir ], file["$dir/local.sh"]]
@@ -37,7 +38,9 @@ class devstack(
     require => [vcsrepo[ $dir ], file["$dir/local.conf"]],
     cwd => $dir,
     path => "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:.",
+    environment => "HOME=/home/$user",
     user => 'stack',
+    group => 'stack',
     command => "$dir/stack.sh",
     logoutput => true,
     timeout => 1200
