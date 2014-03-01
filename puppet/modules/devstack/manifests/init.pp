@@ -3,13 +3,26 @@ class devstack(
 )
 {
   $user = $user::stack::username
+
+  if $devstack_git {
+    $source = $devstack_git
+  } else {
+    $source = 'https://github.com/openstack-dev/devstack'
+  }
+
+  if $devstack_branch {
+    $branch = $devstack_branch
+  } else {
+    $branch = 'master'
+  }
+
   vcsrepo { $dir:
     ensure => latest,
     provider => git,
-    source => 'http://github.com/openstack-dev/devstack',
+    source => $source,
     require => Class["user::stack"],
     user => 'stack',
-    revision => 'master'
+    revision => $branch
   }
 
   if $is_compute == 'true' {

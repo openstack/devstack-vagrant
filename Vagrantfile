@@ -30,6 +30,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "stack_pass" => STACK_PASS,
         "stack_sshkey" => STACK_SSHKEY
       }
+      if DEVSTACK_GIT
+        puppet.facter['devstack_git'] = DEVSTACK_GIT
+        puppet.facter['devstack_branch'] = DEVSTACK_BRANCH
+      end
     end
   end
 
@@ -51,6 +55,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "stack_sshkey" => STACK_SSHKEY,
         "manager_hostname" => MANAGER_HOSTNAME
       }
+      if DEVSTACK_GIT
+        puppet.facter['devstack_git'] = DEVSTACK_GIT
+        puppet.facter['devstack_branch'] = DEVSTACK_BRANCH
+      end
     end
   end
 
