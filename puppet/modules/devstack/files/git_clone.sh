@@ -7,7 +7,7 @@
 # git_update_branch ref
 function git_update_branch {
 
-    GIT_BRANCH=$1
+    local GIT_BRANCH=$1
 
     git checkout -f origin/$GIT_BRANCH
     # a local branch might not exist
@@ -19,7 +19,7 @@ function git_update_branch {
 # git_update_remote_branch ref
 function git_update_remote_branch {
 
-    GIT_BRANCH=$1
+    local GIT_BRANCH=$1
 
     git checkout -b $GIT_BRANCH -t origin/$GIT_BRANCH
 }
@@ -29,7 +29,7 @@ function git_update_remote_branch {
 # git_update_tag ref
 function git_update_tag {
 
-    GIT_TAG=$1
+    local GIT_TAG=$1
 
     git tag -d $GIT_TAG
     # fetching given tag only
@@ -42,9 +42,9 @@ function git_update_tag {
 # ownership to the proper user.
 # git_clone remote dest-dir branch
 function git_clone {
-    GIT_REMOTE=$1
-    GIT_DEST=$2
-    GIT_REF=$3
+    local GIT_REMOTE=$1
+    local GIT_DEST=$2
+    local GIT_REF=$3
 
     # do a full clone only if the directory doesn't exist
     if [[ ! -d $GIT_DEST ]]; then
@@ -114,5 +114,8 @@ function git_timed {
 URL=${1:-https://github.com/openstack-dev/devstack}
 BRANCH=${2:-master}
 LOCAL=${3:-/home/stack/devstack}
+
+set -o xtrace
+set -o errexit
 
 git_clone $URL $LOCAL $BRANCH

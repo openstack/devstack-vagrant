@@ -29,7 +29,7 @@ class devstack(
     environment => "HOME=/home/$user",
     user => 'stack',
     group => 'stack',
-    command => "/usr/local/bin/git_clone.sh $devstack_git $devstack_branch $dir",
+    command => "/usr/local/bin/git_clone.sh ${source} ${branch} ${dir}",
     logoutput => true,
     timeout => 1200
   }
