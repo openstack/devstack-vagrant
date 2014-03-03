@@ -16,13 +16,22 @@ class devstack(
     $branch = 'master'
   }
 
-  vcsrepo { $dir:
-    ensure => latest,
-    provider => git,
-    source => $source,
-    require => Class["user::stack"],
+  file { "/usr/local/bin/git_clone.sh":
+    owner => "root",
+    group => "root",
+    mode  => 755,
+    source => "puppet:///modules/devstack/git_clone.sh",
+  }
+
+  exec { "git_clone.sh":
+    require => File["/usr/local/bin/git_clone.sh"],
+    path => "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:.",
+    environment => "HOME=/home/$user",
     user => 'stack',
-    revision => $branch
+    group => 'stack',
+    command => "/usr/local/bin/git_clone.sh $devstack_git $devstack_branch $dir",
+    logoutput => true,
+    timeout => 1200
   }
 
   if $is_compute == 'true' {
@@ -36,7 +45,7 @@ class devstack(
     group => $user,
     mode  => 755,
     source => "puppet:///modules/devstack/local.sh",
-    require => vcsrepo[ $dir ]
+    require => Exec[ "git_clone.sh" ]
   }
 
   file { "$dir/local.conf":
@@ -44,11 +53,11 @@ class devstack(
     group => $user,
     mode  => 644,
     source => "puppet:///modules/devstack/$localrc",
-    require => [vcsrepo[ $dir ], file["$dir/local.sh"]]
+    require => File["$dir/local.sh"]
   }
 
   exec {"stack.sh":
-    require => [vcsrepo[ $dir ], file["$dir/local.conf"]],
+    require => [ File["$dir/local.conf"], File["$dir/local.sh"] ],
     cwd => $dir,
     path => "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:.",
     environment => "HOME=/home/$user",
