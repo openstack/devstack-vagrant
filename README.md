@@ -10,7 +10,7 @@ completely generically (puppet templates currently hate me under
 vagrant).
 
 This will build a vagrant cluster that is L2 bridged to the interface
-that you specify in `` local_config.rb``. All devstack guests (2nd
+that you specify in ``config.yaml``. All devstack guests (2nd
 level) will also be L2 bridged to that network as well. That means
 that once you bring up this environment you will be able to ssh
 stack@api (or whatever your hostname is) from any machines on your
@@ -41,7 +41,7 @@ the above is recommended size.
 
 Local Setup
 --------------------
-Copy ``local_config.rb.sample`` to ``local_config.rb`` and provide the
+Copy ``config.yaml.sample`` to ``config.yaml`` and provide the
 hostnames you want, and password hash (not password), and sshkey for
 the stack user.
 

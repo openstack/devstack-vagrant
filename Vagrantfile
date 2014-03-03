@@ -6,7 +6,8 @@ if not VAGRANTFILE_API_VERSION
   VAGRANTFILE_API_VERSION = "2"
 end
 
-require './local_config.rb'
+require 'yaml'
+conf = YAML.load(File.open('config.yaml'))
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
@@ -15,7 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "manager" do |manager|
     manager.vm.box = "devstack-api"
-    manager.vm.hostname = MANAGER_HOSTNAME
+    manager.vm.hostname = conf['manager_hostname']
 
     manager.vm.provision "puppet" do |puppet|
       puppet.manifests_path = "puppet/manifests"
@@ -27,19 +28,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ## tells default.pp that we're running in Vagrant
         "is_vagrant" => true,
         "is_compute" => false,
-        "stack_pass" => STACK_PASS,
-        "stack_sshkey" => STACK_SSHKEY
+        "stack_pass" => conf['stack_pass'],
+        "stack_sshkey" => conf['stack_sshkey']
       }
-      if DEVSTACK_GIT
-        puppet.facter['devstack_git'] = DEVSTACK_GIT
-        puppet.facter['devstack_branch'] = DEVSTACK_BRANCH
+      if conf['devstack_git']
+        puppet.facter['devstack_git'] = conf['devstack_git']
+        puppet.facter['devstack_branch'] = conf['devstack_branch']
       end
     end
   end
 
   config.vm.define "compute1" do |compute1|
     compute1.vm.box = "compute1"
-    compute1.vm.hostname = COMPUTE1_HOSTNAME
+    compute1.vm.hostname = conf['compute1_hostname']
 
     compute1.vm.provision "puppet" do |puppet|
       puppet.manifests_path = "puppet/manifests"
@@ -51,17 +52,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ## tells default.pp that we're running in Vagrant
         "is_vagrant" => true,
         "is_compute" => true,
-        "stack_pass" => STACK_PASS,
-        "stack_sshkey" => STACK_SSHKEY,
-        "manager_hostname" => MANAGER_HOSTNAME
+        "stack_pass" => conf['stack_pass'],
+        "stack_sshkey" => conf['stack_sshkey'],
+        "manager_hostname" => conf['manager_hostname']
       }
-      if DEVSTACK_GIT
-        puppet.facter['devstack_git'] = DEVSTACK_GIT
-        puppet.facter['devstack_branch'] = DEVSTACK_BRANCH
+      if conf['devstack_git']
+        puppet.facter['devstack_git'] = conf['devstack_git']
+        puppet.facter['devstack_branch'] = conf['devstack_branch']
       end
     end
   end
-
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
   #
@@ -72,8 +72,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
   # this lets you use a locally accessible version faster
-  if BOX_URL
-    config.vm.box_url = BOX_URL
+  if conf['box_url']
+    config.vm.box_url = conf['box_url']
   end
 
   # config.ssh.private_key_path = "/home/sdague/.ssh/id_rsa"
@@ -90,7 +90,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
-  config.vm.network :public_network, :bridge => BRIDGE_INT
+  config.vm.network :public_network, :bridge => conf['bridge_int']
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
   end
@@ -104,8 +104,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  if LOCAL_OPENSTACK_TREE
-    config.vm.synced_folder LOCAL_OPENSTACK_TREE, "/home/vagrant/openstack"
+  if conf['local_openstack_tree']
+    config.vm.synced_folder conf['local_openstack_tree'], "/home/vagrant/openstack"
   end
 
 end

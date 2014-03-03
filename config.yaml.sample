@@ -1,0 +1,16 @@
+manager_hostname: api.dague.pvt
+compute1_hostname: compute1.dague.pvt
+stack_pass: somebiglongLinuxpasswordhash
+stack_sshkey: >
+  the_ssh_public_key_you_want_for_your_stack_user
+# what interface on the host should be used for a bridge
+# will often be eth0, but vagrant needs to know for sure
+bridge_int: eth1
+# A non upstream url for the base box, used to speed things up
+#box_url: http://gallifrey/vagrant/devstack-2014-02-19.box
+
+# Local devstack options
+# a non upstream git url to fetch devstack from instead
+#devstack_git: /home/vagrant/openstack/devstack
+# if you have code on a different branch than master, you can set it here
+#devstack_branch: compute_err_exit
