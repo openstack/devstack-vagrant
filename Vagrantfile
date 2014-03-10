@@ -38,27 +38,29 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define "compute1" do |compute1|
-    compute1.vm.box = "compute1"
-    compute1.vm.hostname = conf['compute1_hostname']
+  if conf['compute1_hostname']
+    config.vm.define "compute1" do |compute1|
+      compute1.vm.box = "compute1"
+      compute1.vm.hostname = conf['compute1_hostname']
 
-    compute1.vm.provision "puppet" do |puppet|
-      puppet.manifests_path = "puppet/manifests"
-      puppet.module_path = "puppet/modules"
-      puppet.manifest_file = "default.pp"
-      puppet.options = "--verbose --debug"
-      ## custom facts provided to Puppet
-      puppet.facter = {
-        ## tells default.pp that we're running in Vagrant
-        "is_vagrant" => true,
-        "is_compute" => true,
-        "stack_pass" => conf['stack_pass'],
-        "stack_sshkey" => conf['stack_sshkey'],
-        "manager_hostname" => conf['manager_hostname']
-      }
-      if conf['devstack_git']
-        puppet.facter['devstack_git'] = conf['devstack_git']
-        puppet.facter['devstack_branch'] = conf['devstack_branch']
+      compute1.vm.provision "puppet" do |puppet|
+        puppet.manifests_path = "puppet/manifests"
+        puppet.module_path = "puppet/modules"
+        puppet.manifest_file = "default.pp"
+        puppet.options = "--verbose --debug"
+        ## custom facts provided to Puppet
+        puppet.facter = {
+          ## tells default.pp that we're running in Vagrant
+          "is_vagrant" => true,
+          "is_compute" => true,
+          "stack_pass" => conf['stack_pass'],
+          "stack_sshkey" => conf['stack_sshkey'],
+          "manager_hostname" => conf['manager_hostname']
+        }
+        if conf['devstack_git']
+          puppet.facter['devstack_git'] = conf['devstack_git']
+          puppet.facter['devstack_branch'] = conf['devstack_branch']
+        end
       end
     end
   end
