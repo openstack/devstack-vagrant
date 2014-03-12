@@ -3,6 +3,11 @@ class user::stack(
 )
 {
 
+  notify {'after':
+    message => "User params: u => $username, p => $stack_pass, k => $stack_sshkey"
+  }
+
+
   file {'/etc/sudoers.d/stack':
     owner => "root",
     group => "root",

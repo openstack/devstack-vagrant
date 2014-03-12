@@ -1,5 +1,10 @@
 node default {
   include base
   include user::stack
-  include devstack
+  if $setup_mode == "grenade" {
+    include grenade
+  }
+  if $setup_mode == "devstack" {
+    include devstack
+  }
 }

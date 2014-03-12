@@ -16,14 +16,7 @@ class devstack(
     $branch = 'master'
   }
 
-  file { "/usr/local/bin/git_clone.sh":
-    owner => "root",
-    group => "root",
-    mode  => 755,
-    source => "puppet:///modules/devstack/git_clone.sh",
-  }
-
-  exec { "git_clone.sh":
+  exec { "devstack_clone":
     require => File["/usr/local/bin/git_clone.sh"],
     path => "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:.",
     environment => "HOME=/home/$user",
@@ -45,7 +38,7 @@ class devstack(
     group => $user,
     mode  => 755,
     source => "puppet:///modules/devstack/local.sh",
-    require => Exec[ "git_clone.sh" ]
+    require => Exec[ "devstack_clone" ]
   }
 
   file { "$dir/local.conf":

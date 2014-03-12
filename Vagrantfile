@@ -28,12 +28,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ## tells default.pp that we're running in Vagrant
         "is_vagrant" => true,
         "is_compute" => false,
-        "stack_pass" => conf['stack_pass'],
-        "stack_sshkey" => conf['stack_sshkey']
       }
-      if conf['devstack_git']
-        puppet.facter['devstack_git'] = conf['devstack_git']
-        puppet.facter['devstack_branch'] = conf['devstack_branch']
+      # add all the rest of the content in the conf file
+      conf.each do |k, v|
+        puppet.facter[k] = v
       end
     end
   end
@@ -53,13 +51,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           ## tells default.pp that we're running in Vagrant
           "is_vagrant" => true,
           "is_compute" => true,
-          "stack_pass" => conf['stack_pass'],
-          "stack_sshkey" => conf['stack_sshkey'],
-          "manager_hostname" => conf['manager_hostname']
         }
-        if conf['devstack_git']
-          puppet.facter['devstack_git'] = conf['devstack_git']
-          puppet.facter['devstack_branch'] = conf['devstack_branch']
+        # add all the rest of the content in the conf file
+        conf.each do |k, v|
+          puppet.facter[k] = v
         end
       end
     end
