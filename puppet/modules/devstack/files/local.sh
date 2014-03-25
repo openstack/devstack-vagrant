@@ -6,7 +6,7 @@ openrc=/home/stack/devstack/openrc
 source $openrc admin
 
 if is_service_enabled n-api; then
-    for user in "admin demo"; do
+    for user in admin demo; do
         source $openrc $user
         nova keypair-add --pub-key /home/stack/.ssh/authorized_keys default
     done
