@@ -87,7 +87,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
-  config.vm.network :public_network, :bridge => conf['bridge_int']
+  config.vm.network :public_network, :bridge => conf['bridge_int'], :use_dhcp_assigned_default_route => true
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
   end
