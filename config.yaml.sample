@@ -3,6 +3,9 @@ compute1_hostname: compute1.dague.pvt
 stack_pass: somebiglongLinuxpasswordhash
 stack_sshkey: >
   the_ssh_public_key_you_want_for_your_stack_user
+# Define the setup mode to install the environment
+# valid values: grenade/devstack default is devstack
+setup_mode: devstack
 # what interface on the host should be used for a bridge
 # will often be eth0, but vagrant needs to know for sure
 bridge_int: eth1
