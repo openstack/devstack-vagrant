@@ -58,6 +58,6 @@ class devstack(
     group => 'stack',
     command => "$dir/stack.sh",
     logoutput => true,
-    timeout => 1200
+    timeout => 0
   }
 }
