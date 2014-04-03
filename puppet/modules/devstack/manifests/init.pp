@@ -27,12 +27,6 @@ class devstack(
     timeout => 1200
   }
 
-  if $is_compute == 'true' {
-    $localrc = 'compute.conf'
-  } else {
-    $localrc = 'manager.conf'
-  }
-
   file { "$dir/local.sh":
     owner => $user,
     group => $user,
@@ -45,7 +39,7 @@ class devstack(
     owner => $user,
     group => $user,
     mode  => 644,
-    source => "puppet:///modules/devstack/$localrc",
+    content => template('devstack/local.erb'),
     require => File["$dir/local.sh"]
   }
 
@@ -58,6 +52,6 @@ class devstack(
     group => 'stack',
     command => "$dir/stack.sh",
     logoutput => true,
-    timeout => 1200
+    timeout => 0
   }
 }
