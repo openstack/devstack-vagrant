@@ -12,7 +12,7 @@ class base {
     owner => "root",
     group => "root",
     mode  => 755,
-    source => "puppet:///modules/grenade/git_clone.sh",
+    source => "puppet:///modules/base/git_clone.sh",
     require => Package[$vcs]
   }
 
