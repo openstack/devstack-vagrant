@@ -9,54 +9,61 @@ end
 require 'yaml'
 conf = YAML.load(File.open('config.yaml'))
 
+def configure_vm(name, vm, conf)
+  vm.box = name
+  vm.hostname = conf["#{name}_hostname"] or name
+
+  # we do an L2 bridge directly onto the physical network, which means
+  # that your OpenStack hosts (manager, compute1) are directly in the
+  # same network as your physical host. Your OpenStack guests (2nd
+  # level guests that you create in nova) will be also on the same L2,
+  # however they will be in a different address space (10.0.0.0/24 by
+  # default).
+  #
+  # :use_dhcp_assigned_default_route true is important to let your
+  # guests actually route all the way out to the real internet.
+
+  vm.network :public_network, :bridge => conf['bridge_int'], :use_dhcp_assigned_default_route => true
+  vm.provider :virtualbox do |vb|
+    # you need this for openstack guests to talk to each other
+    vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+    # allows for stable mac addresses
+    if conf["#{name}_mac"]
+      vb.customize ["modifyvm", :id, "--macaddress2", conf["#{name}_mac"]]
+    end
+  end
+
+  # puppet provisioning
+  vm.provision "puppet" do |puppet|
+    puppet.manifests_path = "puppet/manifests"
+    puppet.module_path = "puppet/modules"
+    puppet.manifest_file = "default.pp"
+    puppet.options = "--verbose --debug"
+    ## custom facts provided to Puppet
+    puppet.facter = {
+      ## tells default.pp that we're running in Vagrant
+      "is_vagrant" => true,
+      "is_compute" => (name != "manager"),
+    }
+    # add all the rest of the content in the conf file
+    conf.each do |k, v|
+      puppet.facter[k] = v
+    end
+  end
+end
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
   config.vm.define "manager" do |manager|
-    manager.vm.box = "devstack-api"
-    manager.vm.hostname = conf['manager_hostname']
-
-    manager.vm.provision "puppet" do |puppet|
-      puppet.manifests_path = "puppet/manifests"
-      puppet.module_path = "puppet/modules"
-      puppet.manifest_file = "default.pp"
-      puppet.options = "--verbose --debug"
-      ## custom facts provided to Puppet
-      puppet.facter = {
-        ## tells default.pp that we're running in Vagrant
-        "is_vagrant" => true,
-        "is_compute" => false,
-      }
-      # add all the rest of the content in the conf file
-      conf.each do |k, v|
-        puppet.facter[k] = v
-      end
-    end
+    configure_vm("manager", manager.vm, conf)
   end
 
   if conf['compute1_hostname']
     config.vm.define "compute1" do |compute1|
-      compute1.vm.box = "compute1"
-      compute1.vm.hostname = conf['compute1_hostname']
-
-      compute1.vm.provision "puppet" do |puppet|
-        puppet.manifests_path = "puppet/manifests"
-        puppet.module_path = "puppet/modules"
-        puppet.manifest_file = "default.pp"
-        puppet.options = "--verbose --debug"
-        ## custom facts provided to Puppet
-        puppet.facter = {
-          ## tells default.pp that we're running in Vagrant
-          "is_vagrant" => true,
-          "is_compute" => true,
-        }
-        # add all the rest of the content in the conf file
-        conf.each do |k, v|
-          puppet.facter[k] = v
-        end
-      end
+      configure_vm("compute1", compute1.vm, conf)
     end
   end
   # The url from where the 'config.vm.box' box will be fetched if it
@@ -73,24 +80,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box_url = conf['box_url']
   end
 
-  # config.ssh.private_key_path = "/home/sdague/.ssh/id_rsa"
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   #config.vm.network :forwarded_port, guest: 5000, host: 5000
   #config.vm.network :forwarded_port, guest: 8774, host: 8774
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network :private_network, ip: "192.168.33.20"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  config.vm.network :public_network, :bridge => conf['bridge_int'], :use_dhcp_assigned_default_route => true
-  config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
-  end
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
