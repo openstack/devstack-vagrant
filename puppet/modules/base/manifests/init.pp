@@ -1,9 +1,17 @@
 class base {
-  $editors = ["joe", "vim"]
+
+  $vim = $operatingsystem ? {
+    /RedHat|Fedora|Centos/ => "vim-enhanced",
+    default => "vim"
+  }
+
+  $editors = ["joe", $vim]
   $vcs = ["git"]
+
   package {$editors:
     ensure => latest
   }
+
   package {$vcs:
     ensure => latest
   }
