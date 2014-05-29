@@ -14,6 +14,10 @@ define user::create (
     $extra_groups = ['dialout']
   }
 
+  group {$extra_groups:
+    ensure => present,
+  } ->
+
   group {$user:
     ensure => present,
   } ->
