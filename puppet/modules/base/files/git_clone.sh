@@ -46,6 +46,9 @@ function git_clone {
     local GIT_DEST=$2
     local GIT_REF=$3
 
+    # Avoid git exiting when in some other dir than the typical /home/stack
+    cd $(dirname $GIT_DEST)
+
     # do a full clone only if the directory doesn't exist
     if [[ ! -d $GIT_DEST ]]; then
         git_timed clone $GIT_REMOTE $GIT_DEST
