@@ -8,8 +8,15 @@ stack_sshkey: >
 setup_mode: devstack
 # what interface on the host should be used for a bridge
 # will often be eth0, but vagrant needs to know for sure
+# This needs to be the full string descriptor of the interface.
+# On some systems this can be something annoying like
+# 'en1: Wi-Fi (Airport)'. Vagrant will not use this setting
+# unless you get it exactly right.
 bridge_int: eth1
-# A non upstream url for the base box, used to speed things up
+# A non upstream for the base box, used to speed things up.
+# Choose one of box_name (for a locally added box) or box_url
+# for the url of a nearby box.
+#box_name: 'my.favorite'
 #box_url: http://gallifrey/vagrant/devstack-2014-02-19.box
 
 # Local devstack options
