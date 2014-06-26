@@ -1,3 +1,6 @@
+# == Class: grenade
+#
+
 class grenade(
   $dir = '/home/stack/grenade'
 )
@@ -16,15 +19,15 @@ class grenade(
     $branch = 'master'
   }
 
-  exec { "grenade_clone":
-    require => File["/usr/local/bin/git_clone.sh"],
-    path => "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:.",
+  exec { 'grenade_clone':
+    require => File['/usr/local/bin/git_clone.sh'],
+    path => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:.',
     environment => "HOME=/home/$user",
     user => 'stack',
     group => 'stack',
     command => "/usr/local/bin/git_clone.sh ${source} ${branch} ${dir}",
     logoutput => true,
-    timeout => 1200
+    timeout => 1200,
   }
 
   # file { "$dir/localrc":
@@ -35,10 +38,10 @@ class grenade(
   #   require => File["$dir/local.sh"]
   # }
 
-  exec {"grenade.sh":
-    require => [ Exec["grenade_clone"] ],
+  exec { 'grenade.sh':
+    require => Exec['grenade_clone'],
     cwd => $dir,
-    path => "/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:.",
+    path => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:.',
     environment => "HOME=/home/$user",
     user => 'stack',
     group => 'stack',

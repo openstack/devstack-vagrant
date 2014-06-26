@@ -1,10 +1,13 @@
+# == Class: user::create
+#
+
 define user::create (
-  $user = "",
-  $pass = "",
-  $key = "",
-  $key_type = "rsa",
+  $user = '',
+  $pass = '',
+  $key = '',
+  $key_type = 'rsa',
   $home = "/home/${user}",
-  $is_admin = false
+  $is_admin = false,
 )
 {
   if $is_admin == true {
@@ -14,49 +17,49 @@ define user::create (
     $extra_groups = ['dialout']
   }
 
-  group {$extra_groups:
+  group { $extra_groups:
     ensure => present,
   } ->
 
-  group {$user:
+  group { $user:
     ensure => present,
   } ->
 
-  user {$user:
+  user { $user:
+    ensure => present,
     gid => $user,
     password => $pass,
     home => $home,
     groups => $extra_groups,
-    ensure => present,
-    shell => "/bin/bash"
+    shell => '/bin/bash'
   } ->
 
   file { $home:
+    ensure => directory,
     owner => $user,
     group => $user,
-    mode => 755,
-    ensure => directory,
+    mode => '0755',
   } ->
 
   file { "${home}/bin":
+    ensure => directory,
     owner => $user,
     group => $user,
-    mode => 755,
-    ensure => directory,
+    mode => '0755',
   } ->
 
   file { "${home}/.ssh":
+    ensure => directory,
     owner => $user,
     group => $user,
-    mode => 700,
-    ensure => directory,
+    mode => '0700',
   } ->
 
   ssh_authorized_key { $user:
+    ensure => present,
     key => $key,
     user => $user,
     type => $key_type,
-    ensure => present
   }
 
 }
