@@ -46,15 +46,4 @@ class devstack(
     require => File["$dir/local.sh"],
   }
 
-  exec { 'stack.sh':
-    require => [File["$dir/local.conf"], File["$dir/local.sh"]],
-    cwd => $dir,
-    path => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:.',
-    environment => "HOME=/home/$user",
-    user => 'stack',
-    group => 'stack',
-    command => "$dir/stack.sh",
-    logoutput => true,
-    timeout => 0,
-  }
 }

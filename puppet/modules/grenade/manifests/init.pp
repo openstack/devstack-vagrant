@@ -38,15 +38,4 @@ class grenade(
   #   require => File["$dir/local.sh"]
   # }
 
-  exec { 'grenade.sh':
-    require => Exec['grenade_clone'],
-    cwd => $dir,
-    path => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:.',
-    environment => "HOME=/home/$user",
-    user => 'stack',
-    group => 'stack',
-    command => "$dir/grenade.sh",
-    logoutput => true,
-    timeout => 1200
-  }
 }

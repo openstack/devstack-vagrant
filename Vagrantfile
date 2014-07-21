@@ -48,6 +48,19 @@ def configure_vm(name, vm, conf)
       puppet.facter[k] = v
     end
   end
+
+  if conf['setup_mode'] == "devstack"
+    vm.provision "shell" do |shell|
+      shell.inline = "sudo su - stack -c 'cd ~/devstack && ./stack.sh'"
+    end
+  end
+
+  if conf['setup_mode'] == "grenade"
+    vm.provision "shell" do |shell|
+      shell.inline = "sudo su - stack -c 'cd ~/grenade && ./grenade.sh'"
+    end
+  end
+
 end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
