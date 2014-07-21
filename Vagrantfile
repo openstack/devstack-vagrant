@@ -11,7 +11,6 @@ conf = YAML.load(File.open('config.yaml'))
 
 def configure_vm(name, vm, conf)
   vm.hostname = conf["#{name}_hostname"] or name
-
   # we do an L2 bridge directly onto the physical network, which means
   # that your OpenStack hosts (manager, compute1) are directly in the
   # same network as your physical host. Your OpenStack guests (2nd
@@ -56,6 +55,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
+  # Step 1: what's you base box that you are going to use
+  #
+  # - if you specify a local box_name on your system, we'll use that
+  # - else we're going to use an upstream box from the cloud at 14.04 level
+  # - lastly, let you override the url in case you have something cached locally
+  #
+  # The boot time is long for these, so I recommend that you convert to a local
+  # version as soon as you can.
+  if conf['box_name']
+    config.vm.box = conf['box_name']
+  else
+    config.vm.box = 'ubuntu/trusty64'
+  end
+  if conf['box_url']
+    config.vm.box_url = conf['box_url']
+  end
+
   config.vm.define "manager" do |manager|
     configure_vm("manager", manager.vm, conf)
   end
@@ -64,24 +80,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define "compute1" do |compute1|
       configure_vm("compute1", compute1.vm, conf)
     end
-  end
-
-  # You can either name a Vagrant box you have locally added and use
-  # that as a starting point, or give a url from where the 'config.vm.box'
-  # box will be fetched.
-  #
-  # We start with the Ubuntu 12.04 upstream image, which will work. However
-  # building from this every time is slow. So the recommended model is build
-  # the manager once, and recapture that. You do have to nuke a bunch of
-  # network config information to make that capture work (documentation TBD).
-  if conf['box_name']
-    config.vm.box = conf['box_name']
-  else
-      config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
-      # this lets you use a locally accessible version faster
-      if conf['box_url']
-        config.vm.box_url = conf['box_url']
-      end
   end
 
   # Create a forwarded port mapping which allows access to a specific port
