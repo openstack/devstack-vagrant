@@ -85,6 +85,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box_url = conf['box_url']
   end
 
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+
   config.vm.define "manager" do |manager|
     configure_vm("manager", manager.vm, conf)
   end
