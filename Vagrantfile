@@ -87,6 +87,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "manager" do |manager|
     configure_vm("manager", manager.vm, conf)
+    manager.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+    manager.vm.network "forwarded_port", guest: 6080, host: 6080, host_ip: "127.0.0.1"
   end
 
   if conf['compute1_hostname']
@@ -94,12 +96,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       configure_vm("compute1", compute1.vm, conf)
     end
   end
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  #config.vm.network :forwarded_port, guest: 5000, host: 5000
-  #config.vm.network :forwarded_port, guest: 8774, host: 8774
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
