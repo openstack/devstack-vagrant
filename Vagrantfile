@@ -76,14 +76,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   # The boot time is long for these, so I recommend that you convert to a local
   # version as soon as you can.
-  if conf['box_name']
-    config.vm.box = conf['box_name']
-  else
-    config.vm.box = 'ubuntu/trusty64'
-  end
-  if conf['box_url']
-    config.vm.box_url = conf['box_url']
-  end
+  config.vm.box = conf['box_name'] || 'ubuntu/trusty64'
+  config.vm.box_url = conf['box_url'] if conf['box_url']
 
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box
