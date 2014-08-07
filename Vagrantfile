@@ -10,9 +10,9 @@ require 'yaml'
 conf = YAML.load(File.open('config.yaml'))
 
 def configure_vm(name, vm, conf)
-  vm.hostname = conf["#{name}_hostname"] or name
+  vm.hostname = conf["hostname_#{name}"] || name
   # we do an L2 bridge directly onto the physical network, which means
-  # that your OpenStack hosts (manager, compute1) are directly in the
+  # that your OpenStack hosts (manager, compute) are directly in the
   # same network as your physical host. Your OpenStack guests (2nd
   # level guests that you create in nova) will be also on the same L2,
   # however they will be in a different address space (10.0.0.0/24 by
@@ -25,9 +25,9 @@ def configure_vm(name, vm, conf)
   vm.provider :virtualbox do |vb|
     # you need this for openstack guests to talk to each other
     vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
-    # allows for stable mac addresses
-    if conf["#{name}_mac"]
-      vb.customize ["modifyvm", :id, "--macaddress2", conf["#{name}_mac"]]
+    # if specified assign a static MAC address
+    if conf["mac_address_#{name}"]
+      vb.customize ["modifyvm", :id, "--macaddress2", conf["mac_address_#{name}"]]
     end
   end
 
@@ -93,9 +93,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     configure_vm("manager", manager.vm, conf)
   end
 
-  if conf['compute1_hostname']
-    config.vm.define "compute1" do |compute1|
-      configure_vm("compute1", compute1.vm, conf)
+  if conf['hostname_compute']
+    config.vm.define "compute" do |compute|
+      configure_vm("compute", compute.vm, conf)
     end
   end
 
