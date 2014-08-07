@@ -2,9 +2,7 @@
 # vi: set ft=ruby :
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
-if not VAGRANTFILE_API_VERSION
-  VAGRANTFILE_API_VERSION = "2"
-end
+VAGRANTFILE_API_VERSION = "2" if not defined? VAGRANTFILE_API_VERSION
 
 require 'yaml'
 conf = YAML.load(File.open('config.yaml'))
