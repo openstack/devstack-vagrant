@@ -7,7 +7,11 @@ if not VAGRANTFILE_API_VERSION
 end
 
 require 'yaml'
-conf = YAML.load(File.open('config.yaml'))
+if File.file?('config.yaml')
+  conf = YAML.load_file('config.yaml')
+else
+  raise "Configuration file 'config.yaml' does not exist."
+end
 
 def configure_vm(name, vm, conf)
   vm.hostname = conf["#{name}_hostname"] or name
