@@ -89,6 +89,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :box
   end
 
+  # NOTE(berendt): This solves the Ubuntu-specific Vagrant issue 1673.
+  #                https://github.com/mitchellh/vagrant/issues/1673
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
   config.vm.define "manager" do |manager|
     configure_vm("manager", manager.vm, conf)
   end
