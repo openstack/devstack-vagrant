@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
-if not VAGRANTFILE_API_VERSION
+if not defined? VAGRANTFILE_API_VERSION
   VAGRANTFILE_API_VERSION = "2"
 end
 
