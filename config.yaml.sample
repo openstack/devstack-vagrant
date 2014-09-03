@@ -1,5 +1,6 @@
-manager_hostname: api.dague.pvt
-compute1_hostname: compute1.dague.pvt
+hostname_manager: manager.openstack.site
+hostname_compute: compute.openstack.site
+
 stack_pass: somebiglongLinuxpasswordhash
 stack_sshkey: >
   the_ssh_public_key_you_want_for_your_stack_user
@@ -27,5 +28,5 @@ bridge_int: eth1
 
 # You can specify stable mac addresses to keep this from resetting
 # on every create
-# manager_mac: 0800274a508c
-# compute1_mac: 0800274a508d
+# mac_address_manager: 0800274a508c
+# mac_address_compute: 0800274a508d
