@@ -13,17 +13,26 @@ end
 
 def configure_vm(name, vm, conf)
   vm.hostname = conf["hostname_#{name}"] || name
-  # we do an L2 bridge directly onto the physical network, which means
-  # that your OpenStack hosts (manager, compute) are directly in the
-  # same network as your physical host. Your OpenStack guests (2nd
-  # level guests that you create in nova) will be also on the same L2,
-  # however they will be in a different address space (10.0.0.0/24 by
-  # default).
-  #
-  # :use_dhcp_assigned_default_route true is important to let your
-  # guests actually route all the way out to the real internet.
 
-  vm.network :public_network, :bridge => conf['bridge_int'], :use_dhcp_assigned_default_route => true
+  if conf["use_bridge"] == false
+    if conf["ip_address_#{name}"]
+      vm.network :private_network, ip: conf["ip_address_#{name}"]
+    else
+      vm.network :private_network, type: "dhcp"
+    end
+  else
+    # we do an L2 bridge directly onto the physical network, which means
+    # that your OpenStack hosts (manager, compute) are directly in the
+    # same network as your physical host. Your OpenStack guests (2nd
+    # level guests that you create in nova) will be also on the same L2,
+    # however they will be in a different address space (10.0.0.0/24 by
+    # default).
+    #
+    # :use_dhcp_assigned_default_route true is important to let your
+    # guests actually route all the way out to the real internet.
+    vm.network :public_network, :bridge => conf['bridge_int'], :use_dhcp_assigned_default_route => true
+  end
+
   vm.provider :virtualbox do |vb|
     # you need this for openstack guests to talk to each other
     vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
