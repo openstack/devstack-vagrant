@@ -44,6 +44,7 @@ def configure_vm(name, vm, conf)
       ## tells default.pp that we're running in Vagrant
       "is_vagrant" => true,
       "is_compute" => (name != "manager"),
+      "use_ldap" => conf["use_ldap"] || false,
     }
     # add all the rest of the content in the conf file
     conf.each do |k, v|

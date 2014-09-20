@@ -35,6 +35,11 @@ enable_service dstat
 enable_service ceilometer-acompute ceilometer-acentral ceilometer-anotification ceilometer-collector ceilometer-api
 enable_service ceilometer-alarm-notifier ceilometer-alarm-evaluator
 
+<% if @use_ldap == "true" %>
+LDAP_PASSWORD=pass
+enable_service ldap
+<% end %>
+
 <% end %>
 
 [[post-config|$NOVA_CONF]]

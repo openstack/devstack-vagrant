@@ -26,6 +26,10 @@ bridge_int: eth1
 # if you have code on a different branch than master, you can set it here
 #devstack_branch: compute_err_exit
 
+# Uncomment below to setup LDAP on the management node and use it as
+# backend for keystone
+#use_ldap: true
+
 # You can specify stable mac addresses to keep this from resetting
 # on every create
 # mac_address_manager: 0800274a508c
