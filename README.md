@@ -38,6 +38,10 @@ have enough horsepower you should make the file something like:
 You can probably get away with less cpus, and 4096 MB of memory, but
 the above is recommended size.
 
+If the used hostnames in the ``config.yaml`` file (variable ``hostname_manager``
+and ``hostname_compute``) are not resolvable you have to install the
+``vagrant-hostmanager`` plugin (``vagrant plugin install vagrant-hostmanager``).
+
 
 Local Setup
 --------------------

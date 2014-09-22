@@ -89,6 +89,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #                https://github.com/mitchellh/vagrant/issues/1673
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
+  if Vagrant.has_plugin?("vagrant-hostmanager")
+    config.hostmanager.enabled = true
+    config.hostmanager.manage_host = true
+    config.hostmanager.ignore_private_ip = false
+    config.hostmanager.include_offline = true
+  end
+
   config.vm.define "manager" do |manager|
     configure_vm("manager", manager.vm, conf)
     manager.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
