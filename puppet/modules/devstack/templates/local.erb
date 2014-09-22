@@ -19,7 +19,7 @@ SCREEN_LOGDIR=/opt/stack/logs
 <% if @is_compute == "true" %>
 ENABLED_SERVICES=n-cpu,n-net,c-vol
 DATABASE_TYPE=mysql
-SERVICE_HOST=<%= @manager_hostname %>
+SERVICE_HOST=<%= @hostname_manager %>
 MYSQL_HOST=$SERVICE_HOST
 RABBIT_HOST=$SERVICE_HOST
 GLANCE_HOST=$SERVICE_HOST
