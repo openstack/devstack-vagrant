@@ -53,6 +53,7 @@ IMAGE_URLS+=",https://cloud-images.ubuntu.com/precise/current/precise-server-clo
 enable_service dstat
 enable_service ceilometer-acompute ceilometer-acentral ceilometer-anotification ceilometer-collector ceilometer-api
 enable_service ceilometer-alarm-notifier ceilometer-alarm-evaluator
+CEILOMETER_BACKEND=mongodb
 
 <% if @use_ldap == "true" %>
 # LDAP configuration parameters (manager)
