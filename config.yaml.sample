@@ -26,6 +26,10 @@ bridge_int: eth1
 # if you have code on a different branch than master, you can set it here
 #devstack_branch: compute_err_exit
 
+# You can specify a proxy, for example https://github.com/tmatilai/polipo-box,
+# to be used for HTTP connections to speed things up.
+#proxy: http://10.0.10.30:8123/
+
 # Uncomment below to setup LDAP on the management node and use it as
 # backend for keystone
 #use_ldap: true
