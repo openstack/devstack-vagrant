@@ -20,6 +20,13 @@ bridge_int: eth1
 #box_name: 'my.favorite'
 #box_url: http://gallifrey/vagrant/devstack-2014-02-19.box
 
+# The password that should be used for services like the database
+# or queuing.
+service_password: pass
+
+# The password that should be used for the admin user
+admin_password: pass
+
 # Local devstack options
 # a non upstream git url to fetch devstack from instead
 #devstack_git: /home/vagrant/openstack/devstack

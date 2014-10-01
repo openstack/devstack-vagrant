@@ -2,11 +2,11 @@
 
 # generic configuration parameters
 
-DATABASE_PASSWORD=pass
-RABBIT_PASSWORD=pass
-SERVICE_TOKEN=pass
-SERVICE_PASSWORD=pass
-ADMIN_PASSWORD=pass
+DATABASE_PASSWORD=<%= @service_password %>
+RABBIT_PASSWORD=<%= @service_password %>
+SERVICE_TOKEN=<%= @service_password %>
+SERVICE_PASSWORD=<%= @service_password %>
+ADMIN_PASSWORD=<%= @admin_password %>
 
 MULTI_HOST="True"
 API_RATE_LIMIT="False"
@@ -58,7 +58,7 @@ CEILOMETER_BACKEND=mongodb
 <% if @use_ldap == "true" %>
 # LDAP configuration parameters (manager)
 
-LDAP_PASSWORD=pass
+LDAP_PASSWORD=<%= @service_password %>
 enable_service ldap
 <% end %>
 
