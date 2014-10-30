@@ -45,3 +45,13 @@ admin_password: pass
 # on every create
 # mac_address_manager: 0800274a508c
 # mac_address_compute: 0800274a508d
+
+# It is possible to use a hostonly-network instead of a bridged network
+# when setting the parameter use_bridge to false.
+# use_bridge: false
+
+# When using a hostonly-network it is possible to specify static IP
+# addresses using the following parameters. If those parameters are
+# not specified DHCP will be used.
+# ip_address_manager: 10.0.10.10
+# ip_address_compute: 10.0.10.20
