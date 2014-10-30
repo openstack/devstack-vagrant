@@ -2,8 +2,7 @@ hostname_manager: manager.openstack.site
 hostname_compute: compute.openstack.site
 
 stack_pass: somebiglongLinuxpasswordhash
-stack_sshkey: >
-  the_ssh_public_key_you_want_for_your_stack_user
+stack_sshkey: the_ssh_public_key_you_want_for_your_stack_user
 # Define the setup mode to install the environment
 # valid values: grenade/devstack default is devstack
 setup_mode: devstack
