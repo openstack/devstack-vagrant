@@ -86,6 +86,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :box
   end
 
+  if Vagrant.has_plugin?("vagrant-proxyconf") && conf['proxy']
+    config.proxy.http     = conf['proxy']
+    config.proxy.no_proxy = "localhost,127.0.0.1,#{hostname_manager},#{hostname_compute}"
+  end
+
   # NOTE(berendt): This solves the Ubuntu-specific Vagrant issue 1673.
   #                https://github.com/mitchellh/vagrant/issues/1673
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
