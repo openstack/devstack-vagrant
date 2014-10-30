@@ -111,7 +111,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostmanager.include_offline = true
   end
 
-  config.vm.define "manager" do |manager|
+  config.vm.define "manager", primary: true do |manager|
     configure_vm("manager", manager.vm, conf)
     manager.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
     manager.vm.network "forwarded_port", guest: 6080, host: 6080, host_ip: "127.0.0.1"
