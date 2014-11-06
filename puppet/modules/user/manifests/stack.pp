@@ -7,7 +7,7 @@ class user::stack(
 {
 
   notify { 'after':
-    message => "User params: u => $username, p => $stack_pass, k => $stack_sshkey"
+    message => "User params: u => $username, p => $stack_password, k => $stack_sshkey"
   }
 
 
@@ -20,7 +20,7 @@ class user::stack(
 
   user::create { 'stack':
     user => $username,
-    pass => $stack_pass,
+    pass => $stack_password,
     key => $stack_sshkey,
     is_admin => true,
   } ->

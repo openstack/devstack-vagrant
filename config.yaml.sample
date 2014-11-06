@@ -1,56 +1,61 @@
+# Hostname of the manager and the compute nodes.
 hostname_manager: manager.openstack.site
 hostname_compute: compute.openstack.site
 
-stack_pass: somebiglongLinuxpasswordhash
+# The passwort that should be used for the system user 'stack'.
+stack_password: secretsecret
+
+# The password that should be used for services like the database or queuing.
+service_password: secretsecret
+
+# The password that should be used for the OpenStack admin user.
+admin_password: secretsecret
+
+# The public SSH key that should be used for the system user 'stack'.
 stack_sshkey: the_ssh_public_key_you_want_for_your_stack_user
-# Define the setup mode to install the environment
-# valid values: grenade/devstack default is devstack
+
+# Define the setup mode to install the environment.
+# valid values: grenade, devstack
+# default value: devstack
 setup_mode: devstack
-# what interface on the host should be used for a bridge
-# will often be eth0, but vagrant needs to know for sure
-# This needs to be the full string descriptor of the interface.
-# On some systems this can be something annoying like
-# 'en1: Wi-Fi (Airport)'. Vagrant will not use this setting
-# unless you get it exactly right.
+
+# What interface on the host should be used for a bridge will often be eth0,
+# but vagrant needs to know for sure. This needs to be the full string
+# descriptor of the interface. On some systems this can be something annoying
+# like 'en1: Wi-Fi (Airport)'. Vagrant will not use this setting unless you get
+# it exactly right.
 bridge_int: eth1
-# A non upstream for the base box, used to speed things up.
-# Choose one of box_name (for a locally added box) or box_url
-# for the url of a nearby box.
+
+# A non upstream for the base box, used to speed things up. Choose one of
+# box_name (for a locally added box) or box_url for the url of a nearby box.
 #box_name: 'my.favorite'
 #box_url: http://gallifrey/vagrant/devstack-2014-02-19.box
 
-# The password that should be used for services like the database
-# or queuing.
-service_password: pass
-
-# The password that should be used for the admin user
-admin_password: pass
-
-# Local devstack options
-# a non upstream git url to fetch devstack from instead
+# Non upstream Git URL to fetch Devstack from instead.
 #devstack_git: /home/vagrant/openstack/devstack
-# if you have code on a different branch than master, you can set it here
+
+# If you have code on a different branch than master, you can set it here.
 #devstack_branch: compute_err_exit
 
 # You can specify a proxy, for example https://github.com/tmatilai/polipo-box,
 # to be used for HTTP connections to speed things up.
 #proxy: http://10.0.10.30:8123/
 
-# Uncomment below to setup LDAP on the management node and use it as
-# backend for keystone
+# Uncomment below to setup LDAP on the management node and use it as backend
+# for keystone.
 #use_ldap: true
 
-# You can specify stable mac addresses to keep this from resetting
-# on every create
-# mac_address_manager: 0800274a508c
-# mac_address_compute: 0800274a508d
+# You can specify stable MAC addresses to keep this from resetting on every
+# create.
+#mac_address_manager: 0800274a508c
+#mac_address_compute: 0800274a508d
 
-# It is possible to use a hostonly-network instead of a bridged network
-# when setting the parameter use_bridge to false.
-# use_bridge: false
+# It is possible to use a hostonly-network instead of a bridged network when
+# setting the parameter use_bridge to false.
+#use_bridge: false
 
-# When using a hostonly-network it is possible to specify static IP
-# addresses using the following parameters. If those parameters are
-# not specified DHCP will be used.
-# ip_address_manager: 10.0.10.10
-# ip_address_compute: 10.0.10.20
+# When using a hostonly-network it is possible to specify static IP addresses
+# using the following parameters. If those parameters are not specified DHCP
+# will be used.
+#ip_address_manager: 10.0.10.10
+#ip_address_compute: 10.0.10.20
