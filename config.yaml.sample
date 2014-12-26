@@ -2,6 +2,9 @@
 hostname_manager: manager.openstack.site
 hostname_compute: compute.openstack.site
 
+# The domain names and ips to add in the no_proxy variable (comma separated)
+user_domains: .mycompany.com,10.20.30.40
+
 # The passwort that should be used for the system user 'stack'.
 stack_password: secretsecret
 

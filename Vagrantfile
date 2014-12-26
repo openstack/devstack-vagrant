@@ -11,12 +11,26 @@ else
   raise "Configuration file 'config.yaml' does not exist."
 end
 
+$add_manager_to_hosts= <<SETHOSTS
+if ! grep -Fxq "#{conf['ip_address_manager']} #{conf['hostname_manager']}" /etc/hosts
+then
+    echo #{conf['ip_address_manager']} #{conf['hostname_manager']} >> /etc/hosts
+fi
+SETHOSTS
+$git_use_https= <<USEHTTPS
+apt-get install -y git
+/usr/bin/git config --system url."https://github.com/".insteadOf git@github.com:
+/usr/bin/git config --system url."https://".insteadOf git://
+USEHTTPS
+
+
 def configure_vm(name, vm, conf)
   vm.hostname = conf["hostname_#{name}"] || name
 
   if conf["use_bridge"] == false
     if conf["ip_address_#{name}"]
       vm.network :private_network, ip: conf["ip_address_#{name}"]
+      vm.provision :shell, :inline => $add_manager_to_hosts
     else
       vm.network :private_network, type: "dhcp"
     end
@@ -97,7 +111,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   if Vagrant.has_plugin?("vagrant-proxyconf") && conf['proxy']
     config.proxy.http     = conf['proxy']
-    config.proxy.no_proxy = "localhost,127.0.0.1,#{hostname_manager},#{hostname_compute}"
+    config.proxy.https    = conf['proxy']
+    config.proxy.no_proxy = "localhost,127.0.0.1,`facter ipaddress_eth1`,#{conf['hostname_manager']},#{conf['hostname_compute']},#{conf['ip_address_compute']},#{conf['ip_address_manager']},#{conf['user_domains']}"
+    config.vm.provision :shell, :inline => $git_use_https
   end
 
   # NOTE(berendt): This solves the Ubuntu-specific Vagrant issue 1673.
