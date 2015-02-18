@@ -45,8 +45,7 @@ enable_service ceilometer-acompute
 # configure images provided on glance (manager)
 
 IMAGE_URLS="http://download.cirros-cloud.net/0.3.3/cirros-0.3.3-x86_64-uec.tar.gz"
-IMAGE_URLS+=",https://cloud-images.ubuntu.com/precise/current/precise-server-cloudimg-amd64-disk1.img"
-IMAGE_URLS+=",https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img"
+IMAGE_URLS+=",<%= @extra_images %>"
 
 # configure ceilometer (manager)
 

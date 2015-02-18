@@ -62,3 +62,7 @@ bridge_int: eth1
 # will be used.
 #ip_address_manager: 10.0.10.10
 #ip_address_compute: 10.0.10.20
+
+# Extra images to download and add to glance, a list of url's comma separated
+# for new images to be added to glance
+#extra_images: https://cloud-images.ubuntu.com/precise/current/precise-server-cloudimg-amd64-disk1.img,https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img
