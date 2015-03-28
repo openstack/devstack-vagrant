@@ -126,6 +126,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostmanager.manage_host = true
     config.hostmanager.ignore_private_ip = false
     config.hostmanager.include_offline = true
+    if conf["use_bridge"] == false
+      config.hostmanager.ip_resolver = proc do |machine|
+        result = ""
+        machine.communicate.execute("ifconfig eth1") do |type, data|
+          result << data if type == :stdout
+        end
+        (ip = /inet addr:(\d+\.\d+\.\d+\.\d+)/.match(result)) && ip[1]
+      end
+    end
   end
 
   config.vm.define "manager", primary: true do |manager|
