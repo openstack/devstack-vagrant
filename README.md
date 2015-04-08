@@ -52,7 +52,7 @@ the stack user.
 Then run vagrant up.
 
 On a 32 GB Ram, 4 core i7 haswell, on an SSD, with Fios, this takes
-25 - 30 minutes. So it's not quick. However it is repeatble.
+25 - 30 minutes. So it's not quick. However it is repeatable.
 
 
 What you should get
