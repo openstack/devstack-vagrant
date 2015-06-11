@@ -129,8 +129,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     if conf["use_bridge"] == false
       config.hostmanager.ip_resolver = proc do |machine|
         result = ""
-        machine.communicate.execute("ifconfig eth1") do |type, data|
-          result << data if type == :stdout
+        begin
+          machine.communicate.execute("ifconfig eth1") do |type, data|
+            result << data if type == :stdout
+          end
+        # NOTE(jerryz): This catches the exception when host is still
+        # not ssh reachable.
+        # https://github.com/smdahlen/vagrant-hostmanager/issues/121
+        rescue
+          result = "# NOT-UP"
         end
         (ip = /inet addr:(\d+\.\d+\.\d+\.\d+)/.match(result)) && ip[1]
       end
