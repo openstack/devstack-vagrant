@@ -57,8 +57,10 @@ On a 32 GB Ram, 4 core i7 haswell, on an SSD, with Fios, this takes
 
 What you should get
 -----------------------------------
-A 2 node devstack that includes cirros, fedora 20, and ubuntu 12.04
-cloud images populated in glance.
+A 2 node devstack that includes cirros mini cloud image populated in glance.
+You can get other images population such as fedora 20, ubuntu 12.04,
+and ubuntu 14.04, just with a small addtion to ``extra_images`` part
+in ``config.yaml.sample``.
 
 Default security group with ssh and ping opened up.
 
