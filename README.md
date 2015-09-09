@@ -42,6 +42,12 @@ If the used hostnames in the ``config.yaml`` file (variable ``hostname_manager``
 and ``hostname_compute``) are not resolvable you have to install the
 ``vagrant-hostmanager`` plugin (``vagrant plugin install vagrant-hostmanager``).
 
+If the nodes are still not able to communicate to each other even after
+installing the ``vagrant-hostnamanger`` plugin (for example you get errors about
+the compute node not being able to communicate to *cinder c-api* during the
+*vagrant up* phase), set the variable ``use_ip_resolver`` in the ``config.yaml``
+file to ``true``, in order to obtain the correct nodes ip.
+
 
 Local Setup
 --------------------
