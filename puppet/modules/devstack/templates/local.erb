@@ -61,6 +61,12 @@ LDAP_PASSWORD=<%= @service_password %>
 enable_service ldap
 <% end %>
 
+<% if defined?(@manager_extra_services) %>
+# enable extra services
+
+enable_service <%= @manager_extra_services %>
+<% end %>
+
 <% end %>
 
 [[post-config|$NOVA_CONF]]
