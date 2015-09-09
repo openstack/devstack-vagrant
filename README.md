@@ -54,6 +54,12 @@ Then run vagrant up.
 On a 32 GB Ram, 4 core i7 haswell, on an SSD, with Fios, this takes
 25 - 30 minutes. So it's not quick. However it is repeatable.
 
+If you want to speed-up the process, install the
+[vagrant-cachier](https://github.com/fgrehm/vagrant-cachier) plugin in order
+to let vagrant cache files, such as apt packages, with:
+
+    vagrant plugin install vagrant-cachier
+
 
 What you should get
 -----------------------------------
