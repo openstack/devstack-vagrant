@@ -65,3 +65,14 @@ in ``config.yaml.sample``.
 Default security group with ssh and ping opened up.
 
 Installation of the stack user ssh key as the default keypair.
+
+Enable additional services
+------------------------
+The devstack environment created by this `Vagrantfile` includes just the basic
+services to get started with OpenStack. If you want to try more services, you
+can enable them on the manager node through the ``config.yaml`` file.
+
+For example if you want to enable [Swift](http://swift.openstack.org), you can
+add the following line to your ``config.yaml``:
+
+    manager_extra_services: s-proxy s-object s-container s-account
