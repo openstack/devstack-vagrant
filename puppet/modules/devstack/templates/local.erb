@@ -44,8 +44,7 @@ enable_service ceilometer-acompute
 
 # configure images provided on glance (manager)
 
-IMAGE_URLS="http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-uec.tar.gz"
-IMAGE_URLS+=",<%= @extra_images %>"
+IMAGE_URLS="<%= @extra_images %>"
 
 # configure ceilometer (manager)
 
