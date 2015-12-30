@@ -114,7 +114,7 @@ function git_timed {
     done
 }
 
-URL=${1:-https://github.com/openstack-dev/devstack}
+URL=${1:-https://git.openstack.org/openstack-dev/devstack}
 BRANCH=${2:-master}
 LOCAL=${3:-/home/stack/devstack}
 
