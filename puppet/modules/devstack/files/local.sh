@@ -17,9 +17,9 @@ if is_service_enabled n-api; then
 
     for user in admin demo; do
         source "$openrc" "$user" "$user"
-        nova keypair-add --pub-key "$pubkey_file" default
-        nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
-        nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
+        openstack keypair create --public-key "$pubkey_file" default
+        openstack security group rule create --proto icmp --dst-port -1 --src-ip 0.0.0.0/0 default
+        openstack security group rule create --proto tcp --dst-port 22 --src-ip 0.0.0.0/0 default
     done
 
     # Tmp file cleanup
