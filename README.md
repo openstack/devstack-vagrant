@@ -63,11 +63,11 @@ to let vagrant cache files, such as apt packages, with:
 
 What you should get
 -----------------------------------
-A 2 node devstack that includes cirros mini cloud image populated in glance.
-You can get other images population such as fedora 20, ubuntu 12.04,
-and ubuntu 14.04, just with a small addtion to ``extra_images`` part
-in ``config.yaml.sample``.
+A 2 node devstack that includes a cirros mini cloud image populated in glance.
+You can get other images, such as fedora 20, ubuntu 12.04,
+and ubuntu 14.04, populated with just with a small addition to the
+``extra_images`` part in ``config.yaml.sample``.
 
-Default security group with ssh and ping opened up.
+A default security group with ssh and ping opened up.
 
 Installation of the stack user ssh key as the default keypair.
