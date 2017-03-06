@@ -126,7 +126,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.hostmanager.manage_host = true
     config.hostmanager.ignore_private_ip = false
     config.hostmanager.include_offline = true
-    if conf["use_bridge"] == false
+    if conf["use_bridge"] == false || conf["use_ip_resolver"] == true
       config.hostmanager.ip_resolver = proc do |machine|
         result = ""
         begin

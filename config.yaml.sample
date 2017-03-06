@@ -29,6 +29,12 @@ setup_mode: devstack
 # it exactly right.
 bridge_int: eth1
 
+# Enable the vagrant-hostmanager's ip_resolver in order to get the correct
+# nodes ip. You should install the vagrant-hostmanager plugin and enable this
+# option if the nodes are not able to communicate (for example you get errors
+# during the compute vagrant up phase not being able to communicate to c-api).
+#use_ip_resolver: true
+
 # A non upstream for the base box, used to speed things up. Choose one of
 # box_name (for a locally added box) or box_url for the url of a nearby box.
 #box_name: 'my.favorite'
