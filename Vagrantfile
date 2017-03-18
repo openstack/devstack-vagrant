@@ -54,6 +54,9 @@ def configure_vm(name, vm, conf)
     if conf["mac_address_#{name}"]
       vb.customize ["modifyvm", :id, "--macaddress2", conf["mac_address_#{name}"]]
     end
+    # Example of how to use KVM paravirtualization in VirtualBox 5.0
+    # See https://github.com/mitchellh/vagrant/pull/5929
+    vb.customize ["modifyvm", :id, "--paravirtprovider", "kvm"]
   end
 
   # puppet provisioning
