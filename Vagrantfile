@@ -69,6 +69,7 @@ def configure_vm(name, vm, conf)
       "is_compute" => (name != "manager"),
       "use_ldap" => conf["use_ldap"] || false,
       "extra_images" => conf["extra_images"] || "",
+      "vagrant_username" => conf["vagrant_username"] || "ubuntu",
     }
     # add all the rest of the content in the conf file
     conf.each do |k, v|
