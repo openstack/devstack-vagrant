@@ -56,6 +56,9 @@ def configure_vm(name, vm, conf)
     end
   end
 
+  # puppet not installed by default in ubuntu-xenial
+  vm.provision "shell", inline: "sudo apt-get install -y puppet"
+
   # puppet provisioning
   vm.provision "puppet" do |puppet|
     puppet.manifests_path = "puppet/manifests"
@@ -106,11 +109,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   # The boot time is long for these, so I recommend that you convert to a local
   # version as soon as you can.
-  config.vm.box = conf['box_name'] || 'ubuntu/trusty64'
+  config.vm.box = conf['box_name'] || 'ubuntu/xenial64'
   config.vm.box_url = conf['box_url'] if conf['box_url']
 
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box
+    # see https://github.com/fgrehm/vagrant-cachier/issues/175
+    config.cache.synced_folder_opts = {
+      owner: "_apt",
+      group: "ubuntu",
+      mount_options: ["dmode=777", "fmode=666"]
+    }
   end
 
   if Vagrant.has_plugin?("vagrant-proxyconf") && conf['proxy']
