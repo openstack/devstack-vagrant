@@ -69,6 +69,8 @@ def configure_vm(name, vm, conf)
       "is_compute" => (name != "manager"),
       "use_ldap" => conf["use_ldap"] || false,
       "extra_images" => conf["extra_images"] || "",
+      "guest_interface_default" => conf["guest_interface_default"] || "enp0s8",
+      "host_ip_iface" => conf["host_ip_iface"] || "enp0s8",
       "vagrant_username" => conf["vagrant_username"] || "ubuntu",
     }
     # add all the rest of the content in the conf file
