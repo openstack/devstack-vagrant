@@ -1,7 +1,9 @@
 node default {
   include base
   include user::stack
-  include user::vagrant
+  class {'user::vagrant':
+    username => $::vagrant_username,
+  }
   include grenade
   include devstack
 }

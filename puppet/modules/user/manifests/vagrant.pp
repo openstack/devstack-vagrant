@@ -5,14 +5,14 @@ class user::vagrant(
   $username = 'vagrant'
 )
 {
-  file {'/home/vagrant/.bashrc':
+  file {"/home/${username}/.bashrc":
     owner => $username,
     group => $username,
     mode => '0644',
     source => 'puppet:///modules/user/stack_bashrc',
   }
 
-  file {'/home/vagrant/devstack':
+  file {"/home/${username}/devstack":
     owner => $username,
     group => $username,
     mode => '0644',
@@ -20,7 +20,7 @@ class user::vagrant(
     target => '/home/stack/devstack',
   }
 
-  file {'/home/vagrant/grenade':
+  file {"/home/${username}/grenade":
     owner => $username,
     group => $username,
     mode => '0644',
