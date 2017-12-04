@@ -57,6 +57,7 @@ def configure_vm(name, vm, conf)
   end
 
   # puppet not installed by default in ubuntu-xenial
+  vm.provision "shell", inline: "sudo apt-get update"
   vm.provision "shell", inline: "sudo apt-get install -y puppet"
 
   # puppet provisioning
