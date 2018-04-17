@@ -50,6 +50,16 @@ def configure_vm(name, vm, conf)
   vm.provider :virtualbox do |vb|
     # you need this for openstack guests to talk to each other
     vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+
+    # customize memory for vm
+    if conf["memory_#{name}"]
+      vb.memory = conf["memory_#{name}"].to_i()
+    end
+    # customize memory for vm
+    if conf["cpu_#{name}"]
+      vb.cpu = conf["cpu_#{name}"].to_i()
+    end
+
     # if specified assign a static MAC address
     if conf["mac_address_#{name}"]
       vb.customize ["modifyvm", :id, "--macaddress2", conf["mac_address_#{name}"]]
@@ -57,7 +67,7 @@ def configure_vm(name, vm, conf)
   end
 
   # puppet not installed by default in ubuntu-xenial
-  vm.provision "shell", inline: "sudo apt-get install -y puppet"
+  vm.provision "shell", inline: "sudo apt-get update; sudo apt-get install -y puppet"
 
   # puppet provisioning
   vm.provision "puppet" do |puppet|

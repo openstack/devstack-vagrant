@@ -62,6 +62,10 @@ bridge_int: eth1
 #mac_address_manager: 0800274a508c
 #mac_address_compute: 0800274a508d
 
+# Specify the amount of RAM a instance gets:
+memory_manager: 2048
+memory_compute: 3072
+
 # It is possible to use a hostonly-network instead of a bridged network when
 # setting the parameter use_bridge to false.
 #use_bridge: false
