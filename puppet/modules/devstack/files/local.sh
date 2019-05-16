@@ -18,8 +18,8 @@ if is_service_enabled n-api; then
     for user in admin demo; do
         source "$openrc" "$user" "$user"
         openstack keypair create --public-key "$pubkey_file" default
-        openstack security group rule create --proto icmp --dst-port -1 --src-ip 0.0.0.0/0 default
-        openstack security group rule create --proto tcp --dst-port 22 --src-ip 0.0.0.0/0 default
+        openstack security group rule create --proto icmp --dst-port -1 --remote-ip 0.0.0.0/0 default
+        openstack security group rule create --proto tcp --dst-port 22 --remote-ip 0.0.0.0/0 default
     done
 
     # Tmp file cleanup
