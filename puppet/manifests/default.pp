@@ -6,4 +6,8 @@ node default {
   }
   include grenade
   include devstack
+
+  Class['base'] -> Class['user::stack'] -> Class['user::vagrant']
+  Class['user::stack'] -> Class['grenade']
+  Class['user::stack'] -> Class['devstack']
 }
