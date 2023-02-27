@@ -76,6 +76,9 @@ bridge_int: eth1
 #guest_interface_default: eth1
 #host_ip_iface: eth1
 
+# IP version to configure Neutron to create either an Pv4, IPv6, or dual-stack self-service project data-network by with either ip_version:4, ip_version:6, or ip_version:4+6 respectively.
+#ip_version: 4
+
 # Extra images to download and add to glance, a list of url's comma separated
 # for new images to be added to glance
 #extra_images: https://cloud-images.ubuntu.com/precise/current/precise-server-cloudimg-amd64-disk1.img,https://cloud-images.ubuntu.com/trusty/current/trusty-server-cloudimg-amd64-disk1.img
