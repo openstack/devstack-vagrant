@@ -52,7 +52,7 @@ file to ``true``, in order to obtain the correct nodes ip.
 Local Setup
 --------------------
 Copy ``config.yaml.sample`` to ``config.yaml`` and provide the
-hostnames you want, and password hash (not password), and sshkey for
+hostnames you want, and password, and sshkey for
 the stack user.
 
 Then run vagrant up.
