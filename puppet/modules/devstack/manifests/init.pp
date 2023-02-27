@@ -10,7 +10,7 @@ class devstack(
   if $devstack_git {
     $source = $devstack_git
   } else {
-    $source = 'https://git.openstack.org/openstack-dev/devstack'
+    $source = 'https://opendev.org/openstack/devstack'
   }
 
   if $devstack_branch {

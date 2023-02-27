@@ -10,7 +10,7 @@ class grenade(
   if $grenade_git {
     $source = $grenade_git
   } else {
-    $source = 'https://git.openstack.org/openstack-dev/grenade'
+    $source = 'https://opendev.org/openstack/grenade'
   }
 
   if $grenade_branch {
