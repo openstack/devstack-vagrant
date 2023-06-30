@@ -5,7 +5,7 @@ hostname_compute: compute.openstack.site
 # The domain names and ips to add in the no_proxy variable (comma separated)
 user_domains: .mycompany.com,10.20.30.40
 
-# The passwort that should be used for the system user 'stack'.
+# The password that should be used for the system user 'stack'.
 stack_password: secretsecret
 
 # The password that should be used for services like the database or queuing.
@@ -14,7 +14,7 @@ service_password: secretsecret
 # The password that should be used for the OpenStack admin user.
 admin_password: secretsecret
 
-# The public SSH key that should be used for the system user 'stack'.
+# The public SSH key that should be used for the system user 'stack' (only the base64 encoded part).
 stack_sshkey: the_ssh_public_key_you_want_for_your_stack_user
 
 # Define the setup mode to install the environment.
