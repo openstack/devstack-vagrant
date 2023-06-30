@@ -76,6 +76,7 @@ def configure_vm(name, vm, conf)
       "guest_interface_default" => conf["guest_interface_default"] || "enp0s8",
       "host_ip_iface" => conf["host_ip_iface"] || "enp0s8",
       "vagrant_username" => conf["vagrant_username"] || "ubuntu",
+      "ip_version" => conf["ip_version"] || "4",
     }
     # add all the rest of the content in the conf file
     conf.each do |k, v|
