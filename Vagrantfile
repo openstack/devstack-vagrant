@@ -77,6 +77,7 @@ def configure_vm(name, vm, conf)
       "host_ip_iface" => conf["host_ip_iface"] || "enp0s8",
       "vagrant_username" => conf["vagrant_username"] || "ubuntu",
       "ip_version" => conf["ip_version"] || "4",
+      "stack_sshkey_type" => conf["stack_sshkey_type"] || "rsa",
     }
     # add all the rest of the content in the conf file
     conf.each do |k, v|
